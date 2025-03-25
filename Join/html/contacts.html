@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../styles/fonts.css" />
+    <link rel="stylesheet" href="../styles/assets.css" />
+    <link rel="stylesheet" href="../styles/desktopTemplate.css" />
+    <link rel="stylesheet" href="../styles/contacts.css" />
+    <link rel="stylesheet" href="../styles/media.css" />
+    <link rel="stylesheet" href="../styles/media/mediaContacts.css" />
+    <link rel="stylesheet" href="../styles/media/mediaDesktopTemplate.css" />
+    <script src="../script.js"></script>
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/contactsValidation.js"></script>
+    <script src="../scripts/contactsTemplates.js"></script>
+    <script src="../scripts/desktopTemplate.js"></script>
+    <script src="../scripts/dbBackup.js"></script>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="../assets/img/png/favicon2.png"
+    />
+    <title>Contacts</title>
+  </head>
+
+  <body onload="renderContacts()">
+    <div id="desktop_template"></div>
+
+    <div id="contacts_content" class="contacts-content">
+      <div id="contact_box" class="contact-box d-flex-column-center">
+        <button
+          onclick="toggleOverlay('dialog_contacts_overlay')"
+          class="add-contact-btn d-flex-center gap-16"
+        >
+          <span class="add-contact-title"> Add new contact</span>
+          <img src="../assets/img/png/person_add.png" alt="" />
+        </button>
+
+        <div id="contact_list" class="contact-list d-flex-column"></div>
+      </div>
+
+      <div id="contact_info" class="contact-info d-flex-column gap-32 pos-rel">
+        <div class="contact-info-text">
+          <h1>Contacts</h1>
+
+          <div class="text-seperator"></div>
+
+          <span class="info-text">Better with a Team</span>
+
+          <img
+            id="arrow_back"
+            onclick="toggleContactInfo()"
+            class="arrow-back"
+            src="../assets/img/png/arrow-left-line.png"
+            alt=""
+          />
+        </div>
+
+        <div id="contact_info_box" class="contacts-info-box"></div>
+      </div>
+    </div>
+
+    <section
+      id="dialog_contacts_overlay"
+      class="overlay d-flex-center d-none"
+      onclick="toggleOverlay('dialog_contacts_overlay')"
+    >
+      <dialog
+        id="dialog_contacts"
+        class="dialog-add-contact"
+        onclick="bubblingPrevention(event)"
+      >
+        <div
+          class="close-cross little-button d-flex-center wh-24"
+          onclick="toggleOverlay('dialog_contacts_overlay')"
+        >
+          <img src="../assets/img/png/close.png" alt="" />
+        </div>
+        <div class="dialog-left">
+          <img
+            class="logo-dialog"
+            src="../assets/img/png/Join logo vector.png"
+            alt=""
+          />
+          <div class="dialog-text-content d-flex-column gap-16">
+            <div class="dialog-headline font-w-700 font-c-white">
+              Add contact
+            </div>
+
+            <div class="dialog-text-seperator"></div>
+
+            <span class="dialog-text font-c-white"
+              >Tasks are better with a team!</span
+            >
+          </div>
+        </div>
+
+        <div class="user-logo d-flex-center">
+          <img
+            class="new-user-img"
+            src="../assets/img/png/unknown-user.png"
+            alt=""
+          />
+        </div>
+
+        <div class="dialog-right d-flex-column">
+          <div class="input-fields d-flex-column gap-16">
+            <div>
+              <input
+                id="contact_name"
+                class="input-background input-name-img"
+                type="text"
+                placeholder="Name"
+              />
+              <div class="field-alert font-s-12" id="field_alert_name"></div>
+            </div>
+            <div>
+              <input
+                id="contact_email"
+                class="input-background input-email-img"
+                type="email"
+                placeholder="Email"
+              />
+              <div class="field-alert font-s-12" id="field_alert_email"></div>
+            </div>
+            <div>
+              <input
+                id="contact_phone"
+                class="input-background input-phone-img"
+                type="number"
+                min="0"
+                placeholder="Phone"
+              />
+            </div>
+          </div>
+
+          <div class="dialog-btns">
+            <button
+              onclick="toggleOverlay('dialog_contacts_overlay'), clearAddContactForm()"
+              class="clear-button"
+            >
+              Cancel
+              <img
+                src="../assets/img/png/subtasks-cancel.png"
+                alt="Cross sign default"
+              />
+            </button>
+            <button onclick="createContact()">
+              Create contact
+              <img src="../assets/img/png/check.png" alt="check" />
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <section
+      id="dialog_edit_overlay"
+      class="overlay d-flex-center d-none"
+      onclick="toggleOverlay('dialog_edit_overlay')"
+    >
+      <dialog
+        id="dialog_edit_contacts_overlay"
+        class="dialog-edit"
+        onclick="bubblingPrevention(event)"
+      ></dialog>
+    </section>
+
+    <section
+      id="dialog_mobilemenue_overlay"
+      class="overlay d-flex-center d-none"
+      onclick="toggleOverlay('dialog_mobilemenue_overlay')"
+    >
+      <div id="mobile_menu" class="mobile-menu"></div>
+    </section>
+
+    <section
+      id="contact_delete_overlay"
+      class="overlay d-flex-center d-none"
+      onclick="toggleOverlay('contact_delete_overlay')"
+    >
+      <div
+        class="delete-permanently d-flex-column-center gap-32"
+        onclick="bubblingPrevention(event)"
+      >
+        <div class="font-w-700 font-c-66-82-110">
+          Delete contact permanently?
+        </div>
+        <div class="delte-permanently-button-area d-flex-center">
+          <div class="delete-btn" id="delete_yes_btn_contact"></div>
+          <button
+            class="clear-button"
+            onclick="toggleOverlay('contact_delete_overlay')"
+          >
+            NO
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="succesfully_created"
+      class="overlay d-flex-center d-none"
+    ></section>
+  </body>
+</html>

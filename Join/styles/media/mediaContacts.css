@@ -1,0 +1,288 @@
+@media screen and (max-width: 1240px) {
+  .contacts-content {
+    width: calc(100% - 144px);
+    margin-left: 144px;
+  }
+
+  .contact-box {
+    width: 320px;
+  }
+
+  .contact-info {
+    padding: 32px 24px;
+  }
+
+  .contact-info-text {
+    gap: 12px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .contacts-content {
+    width: calc(100% - clamp(100px, 15vw, 144px));
+    margin-left: clamp(100px, 15vw, 144px);
+  }
+
+  .contact-box {
+    width: 300px;
+  }
+
+  .contact-box {
+    padding: 24px 8px 8px 8px;
+  }
+
+  .contact-info {
+    padding-inline: clamp(24px, 24px + 24 * (100vw - 777px)/247, 48px);
+    gap: 16px;
+  }
+
+  .contact-info-text {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .contact-name {
+    font-size: 32px;
+  }
+
+  .text-seperator {
+    height: 3px;
+    width: 80px;
+  }
+
+  .big-letter-circle {
+    width: 100px;
+    height: 100px;
+    font-size: 40px;
+  }
+
+  .contacts-info-name {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px;
+  }
+
+  .contact-details {
+    gap: 40px;
+  }
+
+  dialog {
+    width: 744px;
+    height: 440px;
+  }
+
+  .dialog-left {
+    width: 240px;
+    padding-inline: 24px;
+  }
+
+  .logo-dialog {
+    display: none;
+  }
+
+  .dialog-headline {
+    font-size: 48px;
+  }
+
+  .dialog-text {
+    font-size: 24px;
+  }
+
+  .new-user-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .dialog-right {
+    width: 360px;
+    margin-right: 24px;
+    gap: 32px;
+  }
+
+  .close-cross {
+    top: 24px;
+    right: 24px;
+  }
+
+  .input-background {
+    background-position: 320px 17px;
+  }
+}
+
+@media screen and (max-width: 777px) {
+  .contacts-content {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  dialog {
+    width: 400px;
+    height: 600px;
+    flex-direction: column;
+  }
+
+  .dialog-left {
+    width: 100%;
+    height: 220px;
+    padding: 0px 24px 24px 24px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 0px;
+  }
+
+  .dialog-text-content {
+    gap: 8px;
+  }
+
+  .dialog-headline {
+    font-size: 36px;
+  }
+
+  .dialog-text-seperator {
+    order: 1;
+  }
+
+  .dialog-text {
+    font-size: 20px;
+  }
+
+  .user-logo {
+    position: absolute;
+    top: 160px;
+    left: 140px;
+    height: unset;
+  }
+
+  .new-user-img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .close-cross img {
+    content: url("/assets/img/png/close-white.png");
+  }
+
+  .close-cross:hover img {
+    content: url("/assets/img/png/close.png");
+  }
+
+  .dialog-right {
+    width: 100%;
+    margin: 0px;
+    padding: 24px;
+    gap: 24px;
+  }
+
+  .dialog-btns {
+    justify-content: center;
+  }
+
+  .dialog-btns .clear-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .contacts-content {
+    width: 200vw;
+    margin-block: 80px;
+    transition: transform 0.5s ease;
+  }
+
+  .contact-box,
+  .contact-info {
+    height: calc(100svh - 160px);
+    width: 100vw;
+    padding: 16px 16px;
+  }
+
+  .contacts-content.shifted {
+    transform: translateX(-100vw);
+  }
+
+  .arrow-back {
+    display: block;
+  }
+
+  .contact-details {
+    height: 100%;
+    animation: none;
+    gap: 16px;
+  }
+
+  .add-contact-btn {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 30px;
+  }
+
+  .add-contact-title {
+    display: none;
+  }
+
+  .edit-delete-btn {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 56px;
+    height: 56px;
+    background-color: rgb(41, 53, 71);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+  }
+
+  .mobile-menu-btn:hover {
+    cursor: pointer;
+    background-color: rgb(41, 171, 227);
+  }
+
+  .mobile-menu-btn:active {
+    background-color: rgb(41, 171, 227);
+  }
+
+  .mobile-menu {
+    z-index: 1000;
+    background-color: white;
+    bottom: 85px;
+    right: 6px;
+    position: absolute;
+    width: 116px;
+    height: 100px;
+    border-radius: 20px 20px 0px 20px;
+    padding: 10px;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
+    box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.25);
+  }
+
+  .mobile-menu img {
+    padding: 9px 9px 9px 9px;
+  }
+
+  .mobile-menu img:hover {
+    cursor: pointer;
+  }
+
+  .mobile-menu .mobile-edit-img:hover {
+    content: url("/assets/img/png/edit-hover.png");
+    background-color: rgb(245, 246, 247);
+    border-radius: 9px;
+    padding: 9px 24px 9px 9px;
+  }
+
+  .mobile-menu .mobile-delete-img:hover {
+    content: url("/assets/img/png/delete-hover.png");
+    background-color: rgb(245, 246, 247);
+    border-radius: 9px;
+    padding: 9px 6px 9px 9px;
+  }
+}

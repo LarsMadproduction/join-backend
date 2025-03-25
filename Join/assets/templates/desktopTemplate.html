@@ -1,0 +1,52 @@
+<header>
+  <div>
+    <img class="logo-mobile" src="../assets/img/png/logo_mobile.png" alt="logo" />
+    <span>Kanban Project Management Tool</span>
+  </div>
+
+  <div id="header_icons" class="icon-box" onclick="handleClickUserMenu()">
+    <a id="help_page" href="../html/help.html"><img class="help" src="../assets/img/png/help.png" alt="help" /></a>
+    <div id="user_profile_initials" class="user-profile-initials-box"></div>
+  </div>
+</header>
+
+<div id="log_out_overlay" class="overlay-template d-none" onclick="handleClickUserMenu()">
+  <div id="log_out" class="log-out">
+    <a class="help-menu" href="../html/help.html">Help</a>
+    <a href="../html/legalNotice.html">Legal Notice</a>
+    <a href="../html/privacyPolicy.html">Privacy Policy</a>
+    <a onclick="logOut()">Log Out</a>
+  </div>
+</div>
+
+<aside id="sidebar">
+  <img class="logo-sidebar" src="../assets/img/png/Join logo vector.png" alt="" />
+
+  <div id="icon_bar" class="icon-bar">
+    <a id="link_summary" class="link-sidebar" href="../html/summary.html">
+      <img src="../assets/img/png/summary-grey.png" alt="" />
+      Summary
+    </a>
+
+    <a id="link_addTask" class="link-sidebar" href="../html/addTask.html">
+      <img src="../assets/img/png/addTask-grey.png" alt="" />
+      Add Task
+    </a>
+
+    <a id="link_board" class="link-sidebar" href="../html/board.html">
+      <img src="../assets/img/png/board-grey.png" alt="" />
+      Board
+    </a>
+
+    <a id="link_contacts" class="link-sidebar" href="../html/contacts.html">
+      <img src="../assets/img/png/contacts-grey.png" alt="" />
+      Contacts
+    </a>
+  </div>
+
+  <div class="credit-box">
+    <a class="link-credits" id="link_privacyPolicy" href="../html/privacyPolicy.html">Privacy Policy</a>
+
+    <a class="link-credits" id="link_legalNotice" href="../html/legalNotice.html">Legal notice</a>
+  </div>
+</aside>
