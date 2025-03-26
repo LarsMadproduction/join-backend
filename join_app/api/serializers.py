@@ -2,14 +2,10 @@ from rest_framework import serializers
 from join_app.models import Contact, Task, Subtask
 
 class ContactSerializer(serializers.ModelSerializer):
-    id = serializers.SerializerMethodField()
 
     class Meta:
         model = Contact
-        fields = ['id', 'name', 'email', 'phone', 'color', 'initials']
-
-    def get_id(self, obj):
-        return obj.id - 1
+        fields = '__all__'
     
 class SubtaskSerializer(serializers.ModelSerializer):
     subId = serializers.IntegerField(source='id', read_only=True)
