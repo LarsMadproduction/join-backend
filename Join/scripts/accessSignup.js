@@ -51,11 +51,11 @@ function resetSignupAlert() {
  * @param {string} initials - The user's initials
  */
 async function addUser(email, name, password, initials) {
-  let userId = await getNewId("users");
-  let userData = createUserData(name, initials, email, password, userId);
+  // let userId = await getNewId("users");
+  let userData = createUserData(name, initials, email, password);
 
   try {
-    let result = await postData(`users/${userId - 1}/`, userData);
+    let result = await postData(`users/`, userData);
   } catch (error) {
     console.error("Error during registration:", error);
   }
@@ -71,16 +71,16 @@ async function addUser(email, name, password, initials) {
  * @param {number} userId - The unique identifier for the user
  * @returns {Object} An object containing the user's data
  */
-function createUserData(name, initials, email, password, userId) {
+function createUserData(name, initials, email, password) {
   return {
     name,
     initials,
     email,
     password,
-    id: userId,
+    // id: userId,
     color: "#ffffff",
-    tasks: [6, 7, 8, 9, 10],
-    contacts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    // tasks: [6, 7, 8, 9, 10],
+    // contacts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   };
 }
 

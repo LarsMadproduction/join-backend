@@ -278,11 +278,11 @@ async function createContactProcess(
  * @param {string} initials - The contact's initials.
  */
 async function addContact(nameInput, emailInput, phoneInput, initials) {
-  let contactId = await getNewId("contacts");
+  // let contactId = await getNewId("contacts");
 
-  await postNewContact(nameInput, emailInput, phoneInput, contactId, initials);
+  await postNewContact(nameInput, emailInput, phoneInput, initials);
 
-  addContactToUser(contactId);
+  // addContactToUser(contactId);
 }
 
 /**
@@ -293,9 +293,9 @@ async function addContact(nameInput, emailInput, phoneInput, initials) {
  * @param {number} contactId - The new contact's ID.
  * @param {string} initials - The contact's initials.
  */
-async function postNewContact(name, email, phone, contactId, initials) {
+async function postNewContact(name, email, phone, initials) {
   let contactData = {
-    id: contactId,
+    // id: contactId,
     name: name,
     email: email,
     phone: phone,
@@ -303,7 +303,7 @@ async function postNewContact(name, email, phone, contactId, initials) {
     initials: initials,
   };
 
-  await postData(`contacts/${contactId - 1}/`, contactData);
+  await postData(`contacts/`, contactData);
 }
 
 /**

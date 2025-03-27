@@ -45,7 +45,7 @@ function getTaskFormData() {
 async function handleTaskCreationCompletion() {
   openAddTaskDialogFeedback();
   await sleep(1500);
-  window.location.href = "../html/board.html";
+  // window.location.href = "../html/board.html";
 }
 
 /**

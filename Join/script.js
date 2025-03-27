@@ -9,7 +9,7 @@ let activeUser = getActiveUser();
  * @returns {Array} - Downloaded data.
  */
 async function fetchData(path = "") {
-  let response = await fetch(`${BASE_URL}/${path}`);
+  let response = await fetch(`${BASE_URL}/${path}/`);
   let datas = await response.json();
   if (datas === null) {
     return null;
@@ -25,6 +25,21 @@ async function fetchData(path = "") {
  * @param {*} data - Data to be uploaded
  */
 async function postData(path = "", data = {}) {
+  let response = await fetch(`${BASE_URL}/${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return await response.json();
+}
+
+async function putData(path = "", data = {}) {
   let response = await fetch(`${BASE_URL}/${path}`, {
     method: "PUT",
     headers: {

@@ -46,10 +46,10 @@ function renderEditButtons() {
 /** This function gathers all data to create a task */
 async function createTask() {
   let taskData = getTaskFormData();
-  let taskId = await getNewId("tasks");
+  // let taskId = await getNewId("tasks");
 
-  setTaskData(taskData, taskId);
-  await handleTaskCreationCompletion(taskId);
+  setTaskData(taskData);
+  await handleTaskCreationCompletion();
 }
 
 /**
@@ -58,16 +58,16 @@ async function createTask() {
  * @param {Objekt} taskData - all user inputs for a task
  * @param {number} taskId - Id of the task
  */
-function setTaskData(taskData, taskId) {
+function setTaskData(taskData) {
   putTasksContent(
     taskData.title,
     taskData.description,
     taskData.dueDate,
-    taskId,
+    // taskId,
     taskData.assignedTo,
     taskData.categorySeleced
   );
-  putTaskToUser(taskId);
+  // putTaskToUser(taskId);
 }
 
 /**
@@ -113,26 +113,27 @@ async function updateUserTaskInDatabase(userId, taskId) {
  * @param {number} assignedTo - key of Id of all selcted assigned
  * @param {string} categorySeleced - key of text of the selected category
  */
-function putTasksContent(
+async function putTasksContent(
   title,
   description,
   dueDate,
-  taskId,
+  // taskId,
   assignedTo,
   categorySeleced
 ) {
-  postData(`tasks/${taskId - 1}/`, {
+  let taskData = {
     title: title,
     description: description,
     date: dueDate,
     priority: selectedPrio,
     category: categorySeleced,
-    id: taskId,
+    // id: taskId,
     subtasks: getSubtasks(),
     assigned: assignedTo,
     status: taskStatus,
-    user: Number(userId[0]),
-  });
+    // user: Number(userId[0]),
+  }
+  await postData(`tasks/`, taskData);
 }
 
 /** This function fetches all contact data from the database */
