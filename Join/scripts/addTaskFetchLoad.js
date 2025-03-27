@@ -133,7 +133,8 @@ async function putTasksContent(
     status: taskStatus,
     // user: Number(userId[0]),
   }
-  await postData(`tasks/`, taskData);
+  console.log(taskData);
+  await postData(`tasks/`, taskData);  
 }
 
 /** This function fetches all contact data from the database */

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from join_app.models import User, Contact, Task, SubTask
-from .serializers import UserSerializer, ContactSerializer, TaskSerializer, SubTaskSerializer
+from join_app.models import User, Contact, Task
+from .serializers import UserSerializer, ContactSerializer, TaskSerializer
 
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
@@ -13,7 +13,6 @@ class UserViewSet(viewsets.ModelViewSet):
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-
-class SubTaskViewSet(viewsets.ModelViewSet):
-    queryset = SubTask.objects.all()
-    serializer_class = SubTaskSerializer
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import ContactViewSet, TaskViewSet, UserViewSet

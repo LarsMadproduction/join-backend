@@ -1,5 +1,8 @@
 from django.db import models
 
+# Create your models here.
+from django.db import models
+
 class Contact(models.Model):
     color = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
@@ -10,14 +13,6 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
     
-class SubTask(models.Model):
-    subTaskName = models.CharField(max_length=255)
-    done = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.subTaskName
-
-
 class Task(models.Model):
     CATEGORY_CHOICES = [
         ('Tutorial', 'Tutorial'),
@@ -39,13 +34,13 @@ class Task(models.Model):
     ]
 
     assigned = models.ManyToManyField(Contact, related_name="tasks", blank=True)
-    subtasks = models.ManyToManyField(SubTask, related_name="tasks", blank=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     date = models.DateField()
     description = models.TextField(blank=True, null=True)
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     title = models.CharField(max_length=255)
+    subtasks = models.JSONField(default=list)
 
     def __str__(self):
         return self.title
