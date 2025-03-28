@@ -188,7 +188,7 @@ async function deleteTaskOnlyforUser(taskId, users) {
     return;
   }
   users = users.map((user) => removeTaskFromUser(user, taskId));
-  await postData("users", users);
+  await putData("users", users);
 }
 
 /**
@@ -221,7 +221,7 @@ async function deleteTaskforAllUsers(taskId, users) {
     return;
   }
   users = removeTaskFromUsers(users, taskId);
-  await postData("users", users);
+  await putData("users", users);
 }
 
 /**

@@ -429,7 +429,7 @@ async function deleteContact(contactId) {
  */
 async function deleteContactInData(contactId) {
   let users = await fetchData("users");
-  await deleteContactOnlyforUser(contactId, users);
+  // await deleteContactOnlyforUser(contactId, users);
   await deleteContactforAllUsers(contactId, users);
   await deleteContactFromTasks(contactId);
   deleteContactInLocalStorage(contactId);
@@ -453,7 +453,7 @@ async function deleteContactOnlyforUser(contactId, users) {
     }
     return user;
   });
-  await postData("users", users);
+  await deleteData("users", users);
 }
 
 /**
@@ -559,7 +559,7 @@ async function editUserProcess(name, email, phone, initials) {
 
   if (activeUser !== 0) {
     for (let [key, value] of Object.entries(userData)) {
-      await postData(`users/${activeUser.id - 1}/${key}`, value);
+      await putData(`users/${activeUser.id}/`, value);
     }
   }
 }
@@ -576,16 +576,17 @@ async function editContactProcess(name, email, phone, initials, contactId) {
   let contact = await getContact(contactId);
 
   let contactData = {
-    ...contact,
+    color: contact.color,
     name: name,
     email: email,
     phone: phone,
     initials: initials,
   };
+  console.log(contactData);
 
-  for (let [key, value] of Object.entries(contactData)) {
-    await postData(`contacts/${contact.id - 1}/${key}`, value);
-  }
+  // for (let [key, value] of Object.entries(contactData)) {
+    await putData(`contacts/${contact.id}/`, contactData);
+  // }
 }
 
 /**

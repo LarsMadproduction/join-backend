@@ -98,7 +98,7 @@ async function putTaskToUser(taskId) {
  */
 async function updateUserTaskInDatabase(userId, taskId) {
   if (userId != 0) {
-    let path = `users/${userId - 1}/tasks/${activeUser.tasks.length - 1}`;
+    let path = `users/${userId}/tasks/${activeUser.tasks.length - 1}`;
     return postData(path, taskId);
   }
 }

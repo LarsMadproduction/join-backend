@@ -300,7 +300,7 @@ async function putEditTasksContent(
   userTaskId,
   currenttaskStatus
 ) {
-  postData(`tasks/${taskId - 1}/`, {
+  putData(`tasks/${taskId}/`, {
     title: title,
     description: description,
     date: dueDate,

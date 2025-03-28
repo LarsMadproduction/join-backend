@@ -6,7 +6,7 @@ function initAccess() {
   loginPasswordField();
   signupPasswordField();
   signupConfirmPasswordField();
-  resetTheDatabase();
+  // resetTheDatabase();
 }
 
 /**
