@@ -33,15 +33,27 @@ async function renderTasksInStatusArea() {
 /**
  * Filters tasks assigned to the active user.
  *
- * @returns {Object} An array of task objects assigned to the active user
+ * @returns {Array} An array of task objects assigned to the active user
  */
 async function filterUserTasks() {
-  let userTasks = activeUser.tasks;
-  let allTasks = await fetchData("tasks");
-
-  let tasksToRender = allTasks.filter((task) => userTasks.includes(task.id));
-  return tasksToRender;
+  try {
+    let users = await fetchData("users");
+    let activeUserId = activeUser.id;
+    let activeUserData = users.find(user => user.id === activeUserId);
+    if (!activeUserData) {
+      console.error("Active user not found.");
+      return [];
+    }
+    let userTaskIds = activeUserData.tasks;
+    let allTasks = await fetchData("tasks");
+    let tasksToRender = allTasks.filter(task => userTaskIds.includes(task.id));
+    return tasksToRender;
+  } catch (error) {
+    console.error("Error fetching user tasks:", error);
+    return [];
+  }
 }
+
 
 /**
  * Filters tasks based on a search query in their title or description.

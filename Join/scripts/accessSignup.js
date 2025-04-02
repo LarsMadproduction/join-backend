@@ -77,8 +77,8 @@ function createUserData(name, initials, email, password) {
     initials,
     email,
     password,
-    // id: userId,
-    color: "#ffffff",
+    phone: "",
+    color: generateRandomColor(),
     // tasks: [6, 7, 8, 9, 10],
     // contacts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   };

@@ -213,3 +213,15 @@ function toggleOverlay(section) {
     refOverlay.classList.remove("active", "visible");
   }
 }
+
+/**
+ * Generates a random dark hexadecimal color.
+ */
+function generateRandomColor() {
+  let darkLetters = "0123456789ABC";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += darkLetters[Math.floor(Math.random() * darkLetters.length)];
+  }
+  return color;
+}

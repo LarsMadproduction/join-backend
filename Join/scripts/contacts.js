@@ -29,7 +29,7 @@ async function getContactList() {
  * Filters the contacts of the active user.
  */
 async function filterUserContacts() {
-  let contacts = await fetchData("contacts");
+  let contacts = await fetchData("users");
 
   let userContacts = contacts.filter((contact) =>
     activeUser.contacts.includes(contact.id)
@@ -129,7 +129,7 @@ function limitTextLength(text, maxLength = 15) {
  */
 async function displayContactInfo(contactId) {
   let contact = await getContact(contactId);
-
+  console.log(contact);
   let contactInfoContainer = document.getElementById("contact_info_box");
   contactInfoContainer.innerHTML = generateContactInfo(contact);
 
@@ -146,7 +146,7 @@ async function getContact(contactId) {
   if (contactId === 0) {
     return activeUser;
   } else {
-    let contacts = await fetchData("contacts");
+    let contacts = await fetchData("users");
     let contact = contacts.find((c) => c && c.id === contactId);
     return contact;
   }
@@ -162,6 +162,8 @@ function designeUserInitial(contact) {
       .getElementById("for_active_user")
       .classList.add("big-letter-circel-user");
     document.getElementById("user_delete_display_info").classList.add("d-none");
+  } else {
+    document.getElementById("user_edit_display_info").classList.add("d-none");
   }
 }
 
@@ -282,7 +284,7 @@ async function addContact(nameInput, emailInput, phoneInput, initials) {
 
   await postNewContact(nameInput, emailInput, phoneInput, initials);
 
-  // addContactToUser(contactId);
+  // addContactToUser(nameInput, emailInput, initials);
 }
 
 /**
@@ -307,22 +309,10 @@ async function postNewContact(name, email, phone, initials) {
 }
 
 /**
- * Generates a random dark hexadecimal color.
- */
-function generateRandomColor() {
-  let darkLetters = "0123456789ABC";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += darkLetters[Math.floor(Math.random() * darkLetters.length)];
-  }
-  return color;
-}
-
-/**
  * Adds a contact to the active user.
  * @param {number} contactId - The ID of the contact to add.
  */
-async function addContactToUser(contactId) {
+async function addContactToUser(name, email, initials) {
   let activeUser = JSON.parse(localStorage.getItem("activeUser"));
 
   if (!activeUser.contacts.includes(contactId)) {
@@ -330,10 +320,14 @@ async function addContactToUser(contactId) {
     localStorage.setItem("activeUser", JSON.stringify(activeUser));
 
     if (activeUser !== 0) {
-      let path = `users/${activeUser.id - 1}/contacts/${
-        activeUser.contacts.length - 1
-      }`;
-      await postData(path, contactId);
+      let path = `users/${activeUser.id}/`;
+      let contactData = {
+        email: email,
+        initials: initials,
+        name: name,
+        contacts: contactId,
+      };
+      await postData(path, contactData);
     }
   }
 }
@@ -429,10 +423,10 @@ async function deleteContact(contactId) {
  */
 async function deleteContactInData(contactId) {
   let users = await fetchData("users");
-  // await deleteContactOnlyforUser(contactId, users);
-  await deleteContactforAllUsers(contactId, users);
-  await deleteContactFromTasks(contactId);
-  deleteContactInLocalStorage(contactId);
+  await deleteContactOnlyforUser(contactId, users);
+  // await deleteContactforAllUsers(contactId, users);
+  // await deleteContactFromTasks(contactId);
+  // deleteContactInLocalStorage(contactId);
 }
 
 /**
@@ -585,7 +579,7 @@ async function editContactProcess(name, email, phone, initials, contactId) {
   console.log(contactData);
 
   // for (let [key, value] of Object.entries(contactData)) {
-    await putData(`contacts/${contact.id}/`, contactData);
+  await putData(`contacts/${contact.id}/`, contactData);
   // }
 }
 

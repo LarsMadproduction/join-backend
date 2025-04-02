@@ -50,15 +50,16 @@ function generateContact(contact, limitNameLength, limitEmailLength) {
  */
 function generateContactInfo(contact) {
   let phone = contact.phone !== undefined ? contact.phone : "";
+  let contactColor = contact.id !== 0 ? contact.color : "#ffffff";
   return `
     <div class="contact-details pos-rel w-100 d-flex-column gap-32">
         <div class="contacts-info-name w-100 d-flex gap-24">
-          <div id="for_active_user" class="big-letter-circle font-c-white d-flex-center" style="background-color: ${contact.color};">${contact.initials}</div>          
+          <div id="for_active_user" class="big-letter-circle font-c-white d-flex-center" style="background-color: ${contactColor};">${contact.initials}</div>          
           <div class="contact-box-name d-flex-column gap-8">
             <div class="contact-name">${contact.name}</div>
 
             <div class="edit-delete-btn w-100 d-flex gap-24">
-              <div onclick="openEditContact(${contact.id})" class="d-flex gap-8 font-s-16 contact-link">
+              <div onclick="openEditContact(${contact.id})" id="user_edit_display_info" class="d-flex gap-8 font-s-16 contact-link">
                 <img class="edit-icon" src="../assets/img/png/edit-default.png" alt="" />
               </div>
               <div onclick="openDeleteDialog(${contact.id})" id="user_delete_display_info" class="d-flex gap-8 font-s-16 contact-link">

@@ -46,9 +46,7 @@ function renderEditButtons() {
 /** This function gathers all data to create a task */
 async function createTask() {
   let taskData = getTaskFormData();
-  // let taskId = await getNewId("tasks");
-
-  setTaskData(taskData);
+  await setTaskData(taskData);
   await handleTaskCreationCompletion();
 }
 
@@ -56,18 +54,17 @@ async function createTask() {
  * This function sets all data
  *
  * @param {Objekt} taskData - all user inputs for a task
- * @param {number} taskId - Id of the task
  */
-function setTaskData(taskData) {
-  putTasksContent(
+async function setTaskData(taskData) {
+  await putTasksContent(
     taskData.title,
     taskData.description,
     taskData.dueDate,
-    // taskId,
+    activeUser.id,
     taskData.assignedTo,
     taskData.categorySeleced
   );
-  // putTaskToUser(taskId);
+  // await putTaskToUser(activeUser.id);
 }
 
 /**
@@ -80,7 +77,7 @@ async function putTaskToUser(taskId) {
     activeUser.tasks.push(taskId);
     localStorage.setItem("activeUser", JSON.stringify(activeUser));
     try {
-      await updateUserTaskInDatabase(activeUser.id, taskId);
+      await updateUserTaskInDatabase(activeUser.id);
     } catch (error) {
       console.error("Fehler beim Hinzufügen des Tasks:", error);
       activeUser.tasks.pop();
@@ -96,10 +93,10 @@ async function putTaskToUser(taskId) {
  * @param {number} taskId - Id of the task
  * @returns - activates the pstData function
  */
-async function updateUserTaskInDatabase(userId, taskId) {
+async function updateUserTaskInDatabase(userId) {
   if (userId != 0) {
-    let path = `users/${userId}/tasks/${activeUser.tasks.length - 1}`;
-    return postData(path, taskId);
+    let path = `users/${userId}/`;
+    return postData(path);
   }
 }
 
@@ -117,7 +114,7 @@ async function putTasksContent(
   title,
   description,
   dueDate,
-  // taskId,
+  userId,
   assignedTo,
   categorySeleced
 ) {
@@ -127,13 +124,11 @@ async function putTasksContent(
     date: dueDate,
     priority: selectedPrio,
     category: categorySeleced,
-    // id: taskId,
+    userId: userId,
     subtasks: getSubtasks(),
     assigned: assignedTo,
     status: taskStatus,
-    // user: Number(userId[0]),
-  }
-  console.log(taskData);
+  };
   await postData(`tasks/`, taskData);  
 }
 
