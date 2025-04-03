@@ -280,7 +280,7 @@ async function createContactProcess(
  * @param {string} initials - The contact's initials.
  */
 async function addContact(nameInput, emailInput, phoneInput, initials) {
-  // let contactId = await getNewId("contacts");
+  // let contactId = await getNewId("users");
 
   await postNewContact(nameInput, emailInput, phoneInput, initials);
 
@@ -474,7 +474,7 @@ async function deleteContactFromTasks(contactId) {
  * @param {Array} users - Array of all users.
  */
 async function deleteContactforAllUsers(contactId, users) {
-  await deleteData("contacts", contactId);
+  await deleteData("users", contactId);
   if (activeUser.id === 0) {
     return;
   }

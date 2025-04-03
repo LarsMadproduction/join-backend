@@ -38,7 +38,7 @@ function openEditDialog(taskId) {
 async function taskValuesToEditField(taskId) {
   let tasks = await fetchData("tasks");
   let singleTask = tasks.find((task) => task.id === taskId);
-  let contacts = await fetchData("contacts");
+  let contacts = await fetchData("users");
   setTaskBasicValues(singleTask);
   setTaskUser(singleTask);
   setTaskContacts(singleTask, contacts);
@@ -213,6 +213,8 @@ async function editTask(taskId) {
   let singleTask = tasks.find((task) => task.id === taskId);
   let userTaskId = userTest();
   let currenttaskStatus = singleTask.status;
+
+  
   await updateTaskContent(taskData, taskId, userTaskId, currenttaskStatus);
   await handleTaskEditCompletion(taskId);
 }
@@ -238,7 +240,6 @@ async function updateTaskContent(
     taskId,
     taskData.assignedTo,
     taskData.categorySeleced,
-    userTaskId,
     currenttaskStatus
   );
 }
@@ -297,21 +298,22 @@ async function putEditTasksContent(
   taskId,
   assignedTo,
   categorySeleced,
-  userTaskId,
   currenttaskStatus
 ) {
-  putData(`tasks/${taskId}/`, {
+  
+  editTaskData = {
     title: title,
     description: description,
     date: dueDate,
     priority: selectedPrio,
     category: categorySeleced,
-    id: taskId,
     subtasks: await getEditSubtasks(taskId),
     assigned: assignedTo,
     status: currenttaskStatus,
-    user: userTaskId,
-  });
+  };
+  console.log("Daten die gesendet werden:", editTaskData);
+
+  putData(`tasks/${taskId}/`, editTaskData);
 }
 
 /**

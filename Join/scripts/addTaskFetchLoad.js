@@ -135,7 +135,7 @@ async function putTasksContent(
 /** This function fetches all contact data from the database */
 async function getContacts() {
   document.getElementById("contact_contant").innerHTML = "";
-  let contacts = await fetchData("contacts");
+  let contacts = await fetchData("users");
   let userContacts = activeUser.contacts;
   let contactsToRender = contacts.filter((contact) =>
     userContacts.includes(contact.id)
@@ -146,7 +146,7 @@ async function getContacts() {
 
 /** This function fetches all selected contact data from the database */
 async function updateSelectedContactsDisplay() {
-  let newContacts = await fetchData("contacts");
+  let newContacts = await fetchData("users");
   let selectedList = document.getElementById("selected_contacts");
   selectedList.innerHTML = "";
   let userContacts = activeUser.contacts;

@@ -45,7 +45,7 @@ function getTaskFormData() {
 async function handleTaskCreationCompletion() {
   openAddTaskDialogFeedback();
   await sleep(1500);
-  // window.location.href = "../html/board.html";
+  window.location.href = "../html/board.html";
 }
 
 /**
@@ -72,6 +72,8 @@ function displayContacts(contacts) {
   document.getElementById("contact_contant").innerHTML = userHtml;
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   for (let contact of contacts) {
+    console.log(contacts);
+    
     let contactHtml = showAssignedContactList(contact);
     document.getElementById("contact_contant").innerHTML += contactHtml;
   }
@@ -195,13 +197,16 @@ function displaySelectedContacts(newContacts, selectedList) {
 }
 
 /** This function searches through all contacts oninput */
-function searchContact() {
+async function searchContact() {
   let searContact = document.getElementById("assigned_to").value.toLowerCase();
-  let filteredContacts = window.allContacts.filter((contact) =>
-    contact.name.toLowerCase().includes(searContact)
+  let contacts = await fetchData("users");
+  let filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(searContact) && contact.id !== activeUser.id
   );
+  
   displayContacts(filteredContacts);
 }
+
 
 /**
  * This function handles the selected Priority

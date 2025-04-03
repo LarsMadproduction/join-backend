@@ -7,7 +7,7 @@ async function openSingleTask(taskId) {
   let tasks = await fetchData("tasks");
   let singleTask = tasks.find((task) => task.id === taskId);
   let categoryColor = singleTask.category.replace(/\s+/g, "").toLowerCase();
-  let contacts = await fetchData("contacts");
+  let contacts = await fetchData("users");
 
   displaySingleTask(singleTask, categoryColor);
   displaySingleAssinees(singleTask, contacts);

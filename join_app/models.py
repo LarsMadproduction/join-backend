@@ -1,19 +1,18 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
-
-class Contact(models.Model):
-    color = models.CharField(max_length=10)
+class User(models.Model):
+    color = models.CharField(max_length=10, default='#ffffff')
     email = models.EmailField(unique=True)
     initials = models.CharField(max_length=5)
     name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=20)
-    userId = models.CharField(max_length=50, default=None)
+    contacts = models.ManyToManyField('self', related_name="users", blank=True, symmetrical=False)
+    tasks = models.ManyToManyField('Task', related_name="users", blank=True)
+    password = models.CharField(max_length=255, default=None)
+    phone = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.name
-    
+
 class Task(models.Model):
     CATEGORY_CHOICES = [
         ('Tutorial', 'Tutorial'),
@@ -34,7 +33,7 @@ class Task(models.Model):
         ('done', 'done'),
     ]
 
-    assigned = models.ManyToManyField(Contact, related_name="tasks", blank=True)
+    assigned = models.ManyToManyField(User, related_name="tasks", blank=True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     date = models.DateField()
     userId = models.CharField(max_length=50, default=None)
@@ -46,16 +45,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-    
-class User(models.Model):
-    color = models.CharField(max_length=10, default='#ffffff')
-    email = models.EmailField(unique=True)
-    initials = models.CharField(max_length=5)
-    name = models.CharField(max_length=255)
-    contacts = models.ManyToManyField('self', related_name="users", blank=True)
-    tasks = models.ManyToManyField(Task, related_name="users", blank=True)
-    password = models.CharField(max_length=255, default=None)
-    phone = models.CharField(max_length=20, blank=True, null=True)
-
-    def __str__(self):
-        return self.name

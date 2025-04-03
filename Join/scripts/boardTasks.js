@@ -23,7 +23,7 @@ async function renderTasksInStatusArea() {
   let tasksToRender = await filterUserTasks();
   tasksToRender = filterSoughtTaskToRender(tasksToRender);
   noTaskFound(tasksToRender);
-  let contacts = await fetchData("contacts");
+  let contacts = await fetchData("users");
 
   STATUSES.forEach((status) =>
     renderStatusArea(status, tasksToRender, contacts)
