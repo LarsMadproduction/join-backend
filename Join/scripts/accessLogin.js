@@ -19,22 +19,48 @@ function loginAsGuest() {
 }
 
 /**
- * Attempts to log in a user with provided email and password.
- * Fetches user data, validates credentials, and handles login outcome.
+ * Versucht, den Benutzer mit E-Mail und Passwort anzumelden.
+ * Lädt die Benutzerdaten aus der API, validiert die Anmeldedaten
+ * und speichert alle relevanten Informationen im localStorage.
  */
 async function loginAsUser() {
   let loginEmail = document.getElementById("login_email").value.trim();
   let loginPassword = document.getElementById("login_password").value;
-  let users = await fetchData("users");
-  let user = users.find(
-    (user) => user.email.toLowerCase() === loginEmail.toLowerCase()
-  );
 
   resetLoginAlert();
 
-  if (user && user.password === loginPassword) {
-    await handleSuccessfulLogin(user);
-  } else {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/login/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+    });
+
+    if (!response.ok) {
+      handleLoginError();
+      throw new Error(`Login fehlgeschlagen: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    localStorage.setItem("access_token", data.access);
+    localStorage.setItem("refresh_token", data.refresh);
+
+    let user = {
+      id: data.user.id,
+      email: data.user.email,
+      name: data.user.name,
+      color: data.user.color,
+      initials: data.user.initials,
+      contacts: data.user.contacts,
+      tasks: data.user.tasks,
+      phone: data.user.phone,
+    };
+console.log(user);
+
+    await handleSuccessfulLogin(user); // Erfolgsmethode aufrufen
+  } catch (error) {
+    console.error("Login-Fehler:", error);
     handleLoginError();
   }
 }
