@@ -440,15 +440,12 @@ async function deleteContactOnlyforUser(contactId) {
     return;
   }
 
-  // Entferne die zu löschende ID aus dem contacts-Array des aktiven Benutzers
   const updatedContacts = activeUser.contacts.filter(id => id !== contactId);
 
-  // Neues User-Objekt mit aktualisierten Kontakten erstellen
   const updatedUser = { ...activeUser, contacts: updatedContacts };
 
   console.log("Updated user object:", updatedUser);
 
-  // Sende das gesamte User-Objekt mit aktualisierten Kontakten per PUT an die API
   await putData(`users/${activeUser.id}/`, updatedUser);
 }
 
