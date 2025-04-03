@@ -311,7 +311,6 @@ async function putEditTasksContent(
     assigned: assignedTo,
     status: currenttaskStatus,
   };
-  console.log("Daten die gesendet werden:", editTaskData);
 
   putData(`tasks/${taskId}/`, editTaskData);
 }

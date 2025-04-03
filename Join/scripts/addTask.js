@@ -72,7 +72,6 @@ function displayContacts(contacts) {
   document.getElementById("contact_contant").innerHTML = userHtml;
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   for (let contact of contacts) {
-    console.log(contacts);
     
     let contactHtml = showAssignedContactList(contact);
     document.getElementById("contact_contant").innerHTML += contactHtml;
@@ -239,9 +238,6 @@ function saveInput(index) {
   toggleSubtasksImgs(index);
   handleInputBlur(subInput, index);
   editSubTaskIndex = null;
-  // if (subInput == "") {
-  //   deleteSubtask(index);
-  // }
 }
 
 /**

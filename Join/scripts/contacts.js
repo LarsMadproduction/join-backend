@@ -55,8 +55,6 @@ function renderContactsList(contactList) {
  * @param {HTMLElement} contactListContainer - The HTML element of the contact list.
  */
 function initActiveUser(contactListContainer) {
-  // activeUser.id = 0;
-
   let limitNameLength = limitTextLength(activeUser.name);
   let limitEmailLength = limitTextLength(activeUser.email);
 
@@ -279,11 +277,7 @@ async function createContactProcess(
  * @param {string} initials - The contact's initials.
  */
 async function addContact(nameInput, emailInput, phoneInput, initials) {
-  // let contactId = await getNewId("users");
-
   await postNewContact(nameInput, emailInput, phoneInput, initials);
-
-  // addContactToUser(nameInput, emailInput, initials);
 }
 
 /**
@@ -296,7 +290,6 @@ async function addContact(nameInput, emailInput, phoneInput, initials) {
  */
 async function postNewContact(name, email, phone, initials) {
   let contactData = {
-    // id: contactId,
     name: name,
     email: email,
     phone: phone,
@@ -423,8 +416,7 @@ async function deleteContact(contactId) {
 async function deleteContactInData(contactId) {
   let users = await fetchData("users");
   await deleteContactOnlyforUser(contactId, users);
-  // await deleteContactforAllUsers(contactId);
-  // await deleteContactFromTasks(contactId);
+  deleteContactFromTasks(contactId);
   deleteContactInLocalStorage(contactId);
 }
 
@@ -433,32 +425,33 @@ async function deleteContactInData(contactId) {
  * @param {number} contactId - The ID of the contact.
  */
 async function deleteContactOnlyforUser(contactId) {
-  console.log("Deleting contact ID:", contactId, "from active user:", activeUser);
-
   if (!activeUser || !activeUser.id || !Array.isArray(activeUser.contacts)) {
     console.error("Active user data is invalid:", activeUser);
     return;
   }
 
-  const updatedContacts = activeUser.contacts.filter(id => id !== contactId);
+  const updatedContacts = activeUser.contacts.filter((id) => id !== contactId);
 
   const updatedUser = { ...activeUser, contacts: updatedContacts };
-
-  console.log("Updated user object:", updatedUser);
 
   await putData(`users/${activeUser.id}/`, updatedUser);
 }
 
-
-
-
 /**
- * Deletes a contact from all tasks.
- * @param {number} contactId - The ID of the contact.
+ * Deletes a contact from all tasks belonging to the active user.
+ * @param {number} contactId - The ID of the contact to remove.
  */
 async function deleteContactFromTasks(contactId) {
-  let allTasks = await fetchData("tasks");
-  let updatedTasks = allTasks.map((task) => {
+  let activeUser = JSON.parse(localStorage.getItem("activeUser"));
+
+  if (!activeUser || !activeUser.id) {
+    console.error("Kein gültiger activeUser gefunden.");
+    return;
+  }
+
+  let userTasks = await fetchData(`users/${activeUser.id}/tasks`);
+
+  let updatedTasks = userTasks.map((task) => {
     if (task.assigned && Array.isArray(task.assigned)) {
       return {
         ...task,
@@ -467,24 +460,10 @@ async function deleteContactFromTasks(contactId) {
     }
     return task;
   });
-  await postData("tasks", updatedTasks);
-}
 
-/**
- * Deletes a contact from all users' data.
- * @param {number} contactId - The ID of the contact.
- * @param {Array} users - Array of all users.
- */
-async function deleteContactforAllUsers(contactId, users) {
-  await deleteData("users", contactId);
-  if (activeUser.id === 0) {
-    return;
+  for (const task of updatedTasks) {
+    await putData(`tasks/${task.id}/`, task);
   }
-  users = users.map((user) => ({
-    ...user,
-    contacts: user.contacts.filter((contact) => contact !== contactId),
-  }));
-  await postData("users", users);
 }
 
 /**
@@ -578,11 +557,8 @@ async function editContactProcess(name, email, phone, initials, contactId) {
     phone: phone,
     initials: initials,
   };
-  console.log(contactData);
 
-  // for (let [key, value] of Object.entries(contactData)) {
   await putData(`contacts/${contact.id}/`, contactData);
-  // }
 }
 
 /**

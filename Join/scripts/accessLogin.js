@@ -56,9 +56,8 @@ async function loginAsUser() {
       tasks: data.user.tasks,
       phone: data.user.phone,
     };
-console.log(user);
 
-    await handleSuccessfulLogin(user); // Erfolgsmethode aufrufen
+    await handleSuccessfulLogin(user);
   } catch (error) {
     console.error("Login-Fehler:", error);
     handleLoginError();

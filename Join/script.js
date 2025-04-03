@@ -53,21 +53,6 @@ async function putData(path = "", data = {}) {
   return await response.json();
 }
 
-async function getData(path = "", data = {}) {
-  let response = await fetch(`${BASE_URL}/${path}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  return await response.json();
-}
-
 /**
  * Deletes the data from the database depending on the deposit and the ID.
  *
@@ -92,38 +77,6 @@ async function deleteData(path = "", id) {
   }
 
   return null;
-}
-
-/**
- * Fetches data from the specified path and generates a new unique ID.
- *
- * @param {string} path - The API endpoint path
- * @returns {Number} - New ID
- */
-async function getNewId(path = "") {
-  let response = await fetch(`${BASE_URL}/${path}`);
-  let responseToJson = await response.json();
-  let newUserId;
-  if (responseToJson == null) {
-    newUserId = 1;
-  } else {
-    newUserId = countId(responseToJson);
-  }
-  return newUserId;
-}
-
-/**
- * Calculates the next available ID based on the last entry in the response.
- *
- * @param {Object} responseToJson - The JSON response object containing existing entries
- * @returns {number} - The next available ID
- */
-function countId(responseToJson) {
-  let keys = Object.keys(responseToJson);
-  let lastKey = keys[keys.length - 1];
-  let countId = responseToJson[lastKey].id;
-  countId++;
-  return countId;
 }
 
 /**

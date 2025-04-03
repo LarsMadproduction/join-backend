@@ -51,7 +51,6 @@ function resetSignupAlert() {
  * @param {string} initials - The user's initials
  */
 async function addUser(email, name, password, initials) {
-  // let userId = await getNewId("users");
   let userData = createUserData(name, initials, email, password);
 
   try {
@@ -79,8 +78,6 @@ function createUserData(name, initials, email, password) {
     password,
     phone: "",
     color: generateRandomColor(),
-    // tasks: [6, 7, 8, 9, 10],
-    // contacts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   };
 }
 

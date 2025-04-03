@@ -64,26 +64,6 @@ async function setTaskData(taskData) {
     taskData.assignedTo,
     taskData.categorySeleced
   );
-  // await putTaskToUser(activeUser.id);
-}
-
-/**
- * This function checks if the task Id is includes in active user data
- *
- * @param {number} taskId - Id of the task
- */
-async function putTaskToUser(taskId) {
-  if (!activeUser.tasks.includes(taskId)) {
-    activeUser.tasks.push(taskId);
-    localStorage.setItem("activeUser", JSON.stringify(activeUser));
-    try {
-      await updateUserTaskInDatabase(activeUser.id);
-    } catch (error) {
-      console.error("Fehler beim Hinzufügen des Tasks:", error);
-      activeUser.tasks.pop();
-      localStorage.setItem("activeUser", JSON.stringify(activeUser));
-    }
-  }
 }
 
 /**
