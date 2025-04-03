@@ -166,9 +166,9 @@ function openDeleteDialog(taskId) {
  * @param {number} taskId - Task Id
  */
 async function deleteTask(taskId) {
-  let users = await fetchData("users");
+  let users = await fetchData("tasks");
   await deleteTaskOnlyforUser(taskId, users);
-  await deleteTaskforAllUsers(taskId, users);
+  // await deleteTaskforAllUsers(taskId, users);
   deleteTaskInLocalStorage(taskId);
   await showSuccessfullyDelete();
   toggleOverlay("board_delete_overlay");
@@ -188,7 +188,7 @@ async function deleteTaskOnlyforUser(taskId, users) {
     return;
   }
   users = users.map((user) => removeTaskFromUser(user, taskId));
-  await putData("users", users);
+  await deleteData("tasks", taskId);
 }
 
 /**
@@ -247,6 +247,7 @@ function deleteTaskInLocalStorage(taskId) {
   let activeUser = JSON.parse(localStorage.getItem("activeUser"));
   activeUser.tasks = activeUser.tasks.filter((task) => task !== taskId);
   localStorage.setItem("activeUser", JSON.stringify(activeUser));
+  console.log("delete", taskId);
 }
 
 /**

@@ -55,7 +55,7 @@ function renderContactsList(contactList) {
  * @param {HTMLElement} contactListContainer - The HTML element of the contact list.
  */
 function initActiveUser(contactListContainer) {
-  activeUser.id = 0;
+  // activeUser.id = 0;
 
   let limitNameLength = limitTextLength(activeUser.name);
   let limitEmailLength = limitTextLength(activeUser.email);
@@ -129,7 +129,6 @@ function limitTextLength(text, maxLength = 15) {
  */
 async function displayContactInfo(contactId) {
   let contact = await getContact(contactId);
-  console.log(contact);
   let contactInfoContainer = document.getElementById("contact_info_box");
   contactInfoContainer.innerHTML = generateContactInfo(contact);
 
@@ -424,31 +423,37 @@ async function deleteContact(contactId) {
 async function deleteContactInData(contactId) {
   let users = await fetchData("users");
   await deleteContactOnlyforUser(contactId, users);
-  // await deleteContactforAllUsers(contactId, users);
+  // await deleteContactforAllUsers(contactId);
   // await deleteContactFromTasks(contactId);
-  // deleteContactInLocalStorage(contactId);
+  deleteContactInLocalStorage(contactId);
 }
 
 /**
  * Deletes a contact only from the active user's list.
  * @param {number} contactId - The ID of the contact.
- * @param {Array} users - Array of all users.
  */
-async function deleteContactOnlyforUser(contactId, users) {
-  if (activeUser.id === 0) {
+async function deleteContactOnlyforUser(contactId) {
+  console.log("Deleting contact ID:", contactId, "from active user:", activeUser);
+
+  if (!activeUser || !activeUser.id || !Array.isArray(activeUser.contacts)) {
+    console.error("Active user data is invalid:", activeUser);
     return;
   }
-  users = users.map((user) => {
-    if (user.id === activeUser.id) {
-      return {
-        ...user,
-        contacts: user.contacts.filter((contact) => contact !== contactId),
-      };
-    }
-    return user;
-  });
-  await deleteData("users", users);
+
+  // Entferne die zu löschende ID aus dem contacts-Array des aktiven Benutzers
+  const updatedContacts = activeUser.contacts.filter(id => id !== contactId);
+
+  // Neues User-Objekt mit aktualisierten Kontakten erstellen
+  const updatedUser = { ...activeUser, contacts: updatedContacts };
+
+  console.log("Updated user object:", updatedUser);
+
+  // Sende das gesamte User-Objekt mit aktualisierten Kontakten per PUT an die API
+  await putData(`users/${activeUser.id}/`, updatedUser);
 }
+
+
+
 
 /**
  * Deletes a contact from all tasks.

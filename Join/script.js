@@ -1,5 +1,4 @@
-const BASE_URL =
-  "http://127.0.0.1:8000";
+const BASE_URL = "http://127.0.0.1:8000";
 let activeUser = getActiveUser();
 
 /**
@@ -79,11 +78,20 @@ async function deleteData(path = "", id) {
   let url = `${BASE_URL}/${path}/${id}/`;
   let response = await fetch(url, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
-  if (!response.ok) {
+
+  if (!response.ok && response.status !== 204) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  return await response.json();
+
+  if (response.headers.get("content-type")?.includes("application/json")) {
+    return await response.json();
+  }
+
+  return null;
 }
 
 /**
